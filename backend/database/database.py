@@ -1,6 +1,9 @@
 import sqlite3
+from pathlib import Path
 
-DB = "expenses.db"
+BASE_DIR = Path(__file__).resolve().parent
+
+DB = BASE_DIR / "expenses.db"
 
 def get_conn():
     conn = sqlite3.connect(DB)
