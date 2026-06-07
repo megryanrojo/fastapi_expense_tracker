@@ -37,3 +37,14 @@ def get_xpenses():
 
     return rows
     
+def get_xpense(id: int):
+    conn = get_conn()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM expenses WHERE id = ?;", (id,))
+
+    row = cursor.fetchone()
+
+    conn.close()
+
+    return dict(row) if row else None
