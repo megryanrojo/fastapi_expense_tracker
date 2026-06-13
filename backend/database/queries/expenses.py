@@ -1,7 +1,7 @@
 from ..database import get_conn
 from ...schemas import expense
 
-def create_expense(expense):
+def create_expense(expense: expense.ExpenseCreate):
 
     conn = get_conn()
     cursor = conn.cursor()
@@ -28,7 +28,15 @@ def get_xpenses():
     cursor = conn.cursor()
 
     cursor.execute("""
-        SELECT id, title, amount, category, expense_date FROM expenses LIMIT 10;
+        SELECT 
+            expenses.id, 
+            expenses.title,
+            expenses.amount, 
+            expenses.expense_date,
+            category.name AS category_name
+        FROM expenses
+        JOIN category ON expenses.category_id = category.category_id
+        LIMIT 10;
 """)
     
     rows = cursor.fetchall()    
@@ -71,3 +79,16 @@ def patch_xpense(id: int, title: str | None = None, amount: float | None = None,
     conn.close()
 
     return dict(updated_row) if updated_row else None
+
+def delete_xpense(id: int):
+    conn = get_conn()
+    cursor = conn.cursor()
+
+    query = """
+        DELETE FROM expenses WHERE id = ?;
+"""
+
+    cursor.execute(query, (id))
+
+    conn.commit()
+    conn.close()

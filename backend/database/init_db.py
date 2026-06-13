@@ -16,8 +16,19 @@ CREATE TABLE IF NOT EXISTS expenses(
     title TEXT NOT NULL,
     amount REAL NOT NULL,
     category_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
     expense_date DATE DEFAULT CURRENT_DATE,
     FOREIGN KEY (category_id) REFERENCES category(category_id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+)
+""")
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS users(
+    user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    password TEXT NOT NULL,
+    date_created DATE DEFAULT CURRENT_DATE
 )
 """)
 
