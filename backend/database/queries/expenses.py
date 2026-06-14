@@ -7,12 +7,13 @@ def create_expense(expense: expense.ExpenseCreate):
     cursor = conn.cursor()
 
     cursor.execute("""
-        INSERT INTO expenses (title, amount, category_id)
-        VALUES (?, ?, ?)
+        INSERT INTO expenses (title, amount, category_id, user_id)
+        VALUES (?, ?, ?, ?)
 """, (
         expense['title'],
         expense['amount'],
         expense['category_id'],
+        expense['user_id']
 ))
     
     conn.commit()
@@ -47,15 +48,23 @@ def get_xpenses():
     
 def get_xpense(id: int):
     conn = get_conn()
-    cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM expenses WHERE id = ?;", (id,))
+    try:
+        cursor = conn.cursor()
 
-    row = cursor.fetchone()
-
-    conn.close()
-
-    return dict(row) if row else None
+        cursor.execute("""
+            SELECT
+                expenses.id
+                expenses.title,
+                expenses.amount, 
+                expenses.expense_date,
+                category.name AS category_name
+        """)
+        row = cursor.fetchone()
+        return dict(row) if row else None
+        
+    finally:
+        conn.close()
 
 def patch_xpense(id: int, title: str | None = None, amount: float | None = None, category_id: int | None = None):
     conn = get_conn()

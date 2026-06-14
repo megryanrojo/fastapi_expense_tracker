@@ -29,7 +29,7 @@ async def get_user(user_id: int):
 
     return data
 
-@router.patch("/users/{user_id}", response_model= user.user)
+@router.patch("/users/{user_id}")
 async def patch_user(user_id: int, user_input: user.userUpdate):
     input = user_input.model_dump()
 

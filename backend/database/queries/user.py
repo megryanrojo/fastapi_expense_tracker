@@ -67,7 +67,7 @@ def patch_user(user_id: int, name: str | None = None, password: str | None = Non
         """
 
         cursor.execute(query, (name, password, user_id))
-        cursor.commit()
+        conn.commit()
 
         cursor.execute("SELECT * FROM users WHERE user_id =?;", (user_id,))
         return cursor.fetchone()
