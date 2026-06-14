@@ -14,7 +14,7 @@ async def add_expense(expense_input: e.ExpenseCreate):
         "id": expense_id,
         **new_expense
     }
-    
+
 @router.get("/expenses")
 async def get_all_expenses():
     data = db_expenses.get_xpenses()
@@ -23,7 +23,7 @@ async def get_all_expenses():
         raise HTTPException(status_code=404, detail="No expense record found")
     return data
 
-@router.get("/expenses/{expense_id}", response_model=e.Expense)
+@router.get("/expenses/{expense_id}", response_model=e.get_Expense)
 async def get_xpense(expense_id: int):
     data = db_expenses.get_xpense(expense_id)
     

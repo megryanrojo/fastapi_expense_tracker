@@ -46,7 +46,7 @@ def get_xpenses():
 
     return rows
     
-def get_xpense(id: int):
+def get_xpense(expense_id: int):
     conn = get_conn()
 
     try:
@@ -54,12 +54,18 @@ def get_xpense(id: int):
 
         cursor.execute("""
             SELECT
-                expenses.id
+                expenses.id,
                 expenses.title,
                 expenses.amount, 
                 expenses.expense_date,
-                category.name AS category_name
-        """)
+                category.name AS category_name,
+                users.name AS user_name
+            FROM expenses
+            JOIN category ON expenses.category_id = category.category_id
+            JOIN users ON expenses.user_id = users.user_id
+            WHERE expenses.id = ?;
+        """, (expense_id,))
+
         row = cursor.fetchone()
         return dict(row) if row else None
         
