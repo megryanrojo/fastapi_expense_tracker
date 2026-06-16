@@ -2,7 +2,7 @@ from ..database import get_conn
 from ...schemas import user
 
 
-def new_user(user):
+def new_user(user: user.userCreate):
     conn = get_conn()
 
     try:
@@ -10,7 +10,7 @@ def new_user(user):
 
         query = "INSERT INTO users (name, password, date_created) VALUES (?, ?, ?);"
         params = (
-            user['name'],
+            user.name['name'],
             user['password'],
             user['date_created'],
         )
