@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException
 from ..database.queries import db_user
 from ..schemas import user
 
+
 router = APIRouter()
 
 

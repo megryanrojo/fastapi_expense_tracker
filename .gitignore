@@ -11,3 +11,13 @@ wheels/
 
 #database
 .db
+
+# Environment variables
+.env
+/.env
+
+# IDE files
+.vscode/
+.idea/
+
+

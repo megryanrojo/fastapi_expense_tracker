@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 from ..schemas import auth
 from ..database import db_auth
+from ..core.jwt_handler import create_access_token
 
 
 router = APIRouter()
@@ -17,7 +18,15 @@ def login_user(user_credentials: auth.LoginRequest):
 
     # TODO: JWT Token!
 
+    token = create_access_token(
+        data={
+            "user_id": user["id"],
+            "name": user["name"]
+        }
+    )
+
     return {
+        "access_token": token,
+        "token_type": "bearer",
         "name": user['name'],
-        "message": "Successful authentication!"
     }
