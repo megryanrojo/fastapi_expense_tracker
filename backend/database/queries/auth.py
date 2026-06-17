@@ -1,5 +1,5 @@
 from ..database import get_conn
-from ...schemas import auth
+import bcrypt
 
 def login_user(name: str, password: str):
     conn = get_conn()
@@ -20,8 +20,17 @@ def login_user(name: str, password: str):
         )
 
         cursor.execute(query, param)
+        user_record = cursor.fetchone()
 
-        return cursor.fetchone()
+        if not user_record:
+            return None
+        
+        stored_hashed_password = user_record['password']
+
+        is_password_correct = bcrypt.checkpw(
+            password.encode('utf-8'),
+            stored_hashed_password.encode('utf-8')
+        )
 
     finally:
         conn.close()

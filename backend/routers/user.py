@@ -7,13 +7,12 @@ router = APIRouter()
 
 @router.post("/users")
 async def create_user(user_input: user.userCreate):
-    new_user = user_input.model_dump()
-    user_id = db_user.new_user(new_user)
+    user_id = db_user.new_user(user_input)
     
     return {
         "id": user_id,
-        "name": new_user['name'],
-        "date_created": new_user['date_created']
+        "name": user_input.name,
+        "date_created": user_input.date_created
     }
 
 @router.get("/users")

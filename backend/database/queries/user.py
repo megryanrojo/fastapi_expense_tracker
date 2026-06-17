@@ -1,18 +1,22 @@
 from ..database import get_conn
 from ...schemas import user
+import bcrypt
 
 
-def new_user(user: user.userCreate):
+def new_user(user_input: user.userCreate):
     conn = get_conn()
 
     try:
         cursor = conn.cursor()
 
+        salt = bcrypt.gensalt()
+        hashed_password = bcrypt.hashpw(user_input.password.encode('utf-8'), salt)
+
         query = "INSERT INTO users (name, password, date_created) VALUES (?, ?, ?);"
         params = (
-            user.name['name'],
-            user['password'],
-            user['date_created'],
+            user_input.name,
+            hashed_password,
+            user_input.date_created,
         )
 
         cursor.execute(query, params)
