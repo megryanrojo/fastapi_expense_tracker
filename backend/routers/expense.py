@@ -1,13 +1,15 @@
 from ..schemas import expense as e
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from ..database.queries import db_expenses
+from ..core.dependencies import get_current_user
 
 
 router = APIRouter()
 
 @router.post("/expenses", response_model=e.Expense)
-async def add_expense(expense_input: e.ExpenseCreate):
+async def add_expense(expense_input: e.ExpenseCreate, user=Depends(get_current_user)):
     new_expense = expense_input.model_dump()
+    new_expense["user_id"] = user["user_id"]
     expense_id = db_expenses.create_expense(new_expense)
 
     return {
