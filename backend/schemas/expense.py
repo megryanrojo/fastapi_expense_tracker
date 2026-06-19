@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from decimal import Decimal
 from datetime import date
 
 class ExpenseCreate(BaseModel):
@@ -21,6 +22,16 @@ class ExpenseUpdate(BaseModel):
     title: str | None = None
     amount: float | None = None
     category_id: int | None = None
+
+class ExpenseResponse(BaseModel):
+    id: int
+    title: str
+    amount: Decimal       # Best practice for currency values
+    expense_date: date    # Automatically converts SQL date strings to date objects
+    category_name: str    # Captured from your SQL JOIN
+
+    class Config:
+        from_attributes = True
 
 class Expense(ExpenseCreate):
     id: int

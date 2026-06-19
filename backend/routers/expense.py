@@ -17,7 +17,7 @@ async def add_expense(expense_input: e.ExpenseCreate, user=Depends(get_current_u
         **new_expense
     }
 
-@router.get("/expenses")
+@router.get("/expenses", response_model=list[e.ExpenseResponse])
 async def get_all_expenses(user=Depends(get_current_user)):
     user_id = user["user_id"]
     data = db_expenses.get_xpenses(user_id)
@@ -38,14 +38,14 @@ async def get_xpense(expense_id: int, user=Depends(get_current_user)):
         )
     return data
     
-@router.patch("expenses/{expense_id}")
+@router.patch("/expenses/{expense_id}")
 async def patch_expense(expense_id: int, input_expense: e.ExpenseUpdate, user=Depends(get_current_user)):
     input = input_expense.model_dump()
     user_id = user["user_id"]
 
     title = input["title"]
     amount = input["amount"]
-    category = input["category"]
+    category = input["category_id"]
 
     data = db_expenses.patch_xpense(expense_id, user_id, title, amount, category)
 

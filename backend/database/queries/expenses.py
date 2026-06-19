@@ -25,6 +25,7 @@ def create_expense(expense: expense.ExpenseCreate):
     return expense_id
 
 def get_xpenses(user_id: int):
+    
     conn = get_conn()
     cursor = conn.cursor()
 
@@ -45,8 +46,13 @@ def get_xpenses(user_id: int):
     
     conn.close()
 
-    return rows
-    
+    return [dict(row) for row in rows]
+
+#TODO Filter and Query params!
+
+def get_xpense_category(user_id: int, expense_category: int):
+    pass
+
 def get_xpense(expense_id: int, user_id: int):
     conn = get_conn()
 
@@ -82,8 +88,9 @@ def patch_xpense(id: int, user_id: int, title: str | None = None, amount: float 
         SET 
             title = COALESCE(?, title),
             amount = COALESCE(?, amount),
-            category = COALESCE(?, category_id)
-        WHERE id = ? AND users.user_id = ?;
+            category_id = COALESCE(?, category_id)
+        WHERE id = ? 
+            AND user_id = (SELECT user_id FROM users WHERE user_id = ?);
     """
 
     cursor.execute(query, (title, amount, category_id, id, user_id))
