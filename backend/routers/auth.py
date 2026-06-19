@@ -16,8 +16,6 @@ def login_user(user_credentials: auth.LoginRequest):
             detail="Invalid credentials"
         )
 
-    # TODO: JWT Token!
-
     token = create_access_token(
         data={
             "user_id": user["id"],

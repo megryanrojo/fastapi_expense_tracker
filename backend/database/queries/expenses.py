@@ -24,7 +24,7 @@ def create_expense(expense: expense.ExpenseCreate):
 
     return expense_id
 
-def get_xpenses():
+def get_xpenses(user_id: int):
     conn = get_conn()
     cursor = conn.cursor()
 
@@ -37,8 +37,9 @@ def get_xpenses():
             category.name AS category_name
         FROM expenses
         JOIN category ON expenses.category_id = category.category_id
+        WHERE expenses.user_id = ?
         LIMIT 10;
-""")
+""", (user_id,))
     
     rows = cursor.fetchall()    
     
@@ -46,7 +47,7 @@ def get_xpenses():
 
     return rows
     
-def get_xpense(expense_id: int):
+def get_xpense(expense_id: int, user_id: int):
     conn = get_conn()
 
     try:
@@ -63,8 +64,8 @@ def get_xpense(expense_id: int):
             FROM expenses
             JOIN category ON expenses.category_id = category.category_id
             JOIN users ON expenses.user_id = users.user_id
-            WHERE expenses.id = ?;
-        """, (expense_id,))
+            WHERE expenses.id = ? AND expenses.user_id = ?;
+        """, (expense_id, user_id))
 
         row = cursor.fetchone()
         return dict(row) if row else None
@@ -72,7 +73,7 @@ def get_xpense(expense_id: int):
     finally:
         conn.close()
 
-def patch_xpense(id: int, title: str | None = None, amount: float | None = None, category_id: int | None = None):
+def patch_xpense(id: int, user_id: int, title: str | None = None, amount: float | None = None, category_id: int | None = None):
     conn = get_conn()
     cursor = conn.cursor()
 
@@ -82,10 +83,10 @@ def patch_xpense(id: int, title: str | None = None, amount: float | None = None,
             title = COALESCE(?, title),
             amount = COALESCE(?, amount),
             category = COALESCE(?, category_id)
-        WHERE id = ?;
-"""
+        WHERE id = ? AND users.user_id = ?;
+    """
 
-    cursor.execute(query, (title, amount, category_id, id))
+    cursor.execute(query, (title, amount, category_id, id, user_id))
     conn.commit()
 
     cursor.execute("SELECT * FROM expenses WHERE id = ?;", (id,))
