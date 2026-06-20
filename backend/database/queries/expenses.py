@@ -51,7 +51,31 @@ def get_xpenses(user_id: int):
 #TODO Filter and Query params!
 
 def get_xpense_category(user_id: int, expense_category: int):
-    pass
+    conn = get_conn()
+
+    try:
+        cursor = conn.cursor()
+        
+        query = """
+            SELECT
+                expenses.id,
+                expenses.title,
+                expenses.amount,
+                category.name AS category_name
+            FROM expenses
+            JOIN category ON expenses.category_id = category.category_id
+            WHERE expenses.user_id = ? AND expenses.category_id = ?
+            LIMIT 10;
+        """
+        params = (user_id, expense_category)
+
+        cursor.execute(query, params)
+        rows = cursor.fetchall()
+
+        return [dict(row) for row in rows]
+
+    finally:
+        conn.close()
 
 def get_xpense(expense_id: int, user_id: int):
     conn = get_conn()

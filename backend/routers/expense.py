@@ -37,6 +37,18 @@ async def get_xpense(expense_id: int, user=Depends(get_current_user)):
             detail="Expense not found"
         )
     return data
+
+@router.get("/expenses/category/{category_id}")
+async def get_expenses_by_category(category_id: int, user=Depends(get_current_user)):
+    user_id = user["user_id"]
+    data = db_expenses.get_xpense_category(user_id, category_id)
+
+    if not data:
+        raise HTTPException(
+            status_code=404,
+            detail="No Expense found with this category"
+        )
+    return data
     
 @router.patch("/expenses/{expense_id}")
 async def patch_expense(expense_id: int, input_expense: e.ExpenseUpdate, user=Depends(get_current_user)):
