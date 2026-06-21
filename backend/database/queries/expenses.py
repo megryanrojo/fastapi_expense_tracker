@@ -77,6 +77,34 @@ def get_xpense_category(user_id: int, expense_category: int):
     finally:
         conn.close()
 
+def get_expense_min(user_id: int, min_amount: float):
+    conn = get_conn()
+
+    try:
+        cursor = conn.cursor()
+
+        query = """
+            SELECT 
+                expenses.id,
+                expenses.title,
+                expenses.amount,
+                category.name as category_name
+            FROM expenses
+            JOIN category ON expenses.category_id = category.category_id
+            WHERE expenses.user_id = ?
+            ORDER BY expenses.amount ASC
+            LIMIT 10;
+        """
+
+        cursor.execute(query, (user_id,))
+
+        rows = cursor.fetchall()
+
+        return rows
+    
+    finally:
+        conn.close()
+
 def get_xpense(expense_id: int, user_id: int):
     conn = get_conn()
 

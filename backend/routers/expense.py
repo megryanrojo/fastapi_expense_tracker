@@ -2,6 +2,7 @@ from ..schemas import expense as e
 from fastapi import APIRouter, HTTPException, Depends
 from ..database.queries import db_expenses
 from ..core.dependencies import get_current_user
+from typing import Optional
 
 
 router = APIRouter()
@@ -18,7 +19,15 @@ async def add_expense(expense_input: e.ExpenseCreate, user=Depends(get_current_u
     }
 
 @router.get("/expenses", response_model=list[e.ExpenseResponse])
-async def get_all_expenses(user=Depends(get_current_user)):
+async def get_all_expenses(
+    user=Depends(get_current_user),
+    min_amount: Optional[float] = None,
+    max_amount: Optional[float] = None,
+    category: Optional[str] = None,
+    start_date: Optional[str] = None,
+    end_date: Optional[str] = None
+    ):
+    
     user_id = user["user_id"]
     data = db_expenses.get_xpenses(user_id)
 
@@ -38,7 +47,7 @@ async def get_xpense(expense_id: int, user=Depends(get_current_user)):
         )
     return data
 
-@router.get("/expenses/category/{category_id}")
+@router.get("/expenses/categories/{category_id}")
 async def get_expenses_by_category(category_id: int, user=Depends(get_current_user)):
     user_id = user["user_id"]
     data = db_expenses.get_xpense_category(user_id, category_id)
