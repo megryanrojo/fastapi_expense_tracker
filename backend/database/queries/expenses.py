@@ -26,26 +26,54 @@ def create_expense(expense: expense.ExpenseCreate):
     return expense_id
 
 def get_xpenses(user_id: int, min_amount: Optional[int], max_amount: Optional[int], category: Optional[str], start_date: Optional[str], end_date: Optional[str]):
-    
     conn = get_conn()
-    cursor = conn.cursor()
 
-    cursor.execute("""
-        SELECT 
-            expenses.id, 
-            expenses.title,
-            expenses.amount, 
-            expenses.expense_date,
-            category.name AS category_name
-        FROM expenses
-        JOIN category ON expenses.category_id = category.category_id
-        WHERE expenses.user_id = ?
-        LIMIT 10;
-""", (user_id,))
+    try:
+        cursor = conn.cursor()
+
+        query = """
+            SELECT 
+                expenses.id, 
+                expenses.title,
+                expenses.amount, 
+                expenses.expense_date,
+                category.name AS category_name
+            FROM expenses
+            JOIN category ON expenses.category_id = category.category_id
+            WHERE expenses.user_id = ?
+        """
+
+        params = [user_id]
+
+        if min_amount is not None:
+            query += " AND expenses.amount >= ?"
+            params.append(min_amount)
+
+        if max_amount is not None:
+            query += " AND expenses.amount <= ?"
+            params.append(max_amount)
+
+        if category is not None:
+            query += " AND category.name = ?"
+            params.append(category)
+
+        if start_date is not None:
+            query += " AND expenses.expense_date >= ?"
+            params.append(start_date)
+
+        if end_date is not None:
+            query += " AND expenses.expense_date <= ?"
+            params.append(start_date)
+
+        query += " LIMIT 10;"
+
+        cursor.execute(query, tuple(params))
+        rows = cursor.fetchall()
+
+        return rows
     
-    rows = cursor.fetchall()    
-    
-    conn.close()
+    finally:
+        conn.close()
 
     return [dict(row) for row in rows]
 

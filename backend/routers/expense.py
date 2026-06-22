@@ -18,7 +18,7 @@ async def add_expense(expense_input: e.ExpenseCreate, user=Depends(get_current_u
         **new_expense
     }
 
-@router.get("/expenses", response_model=list[e.ExpenseResponse])
+@router.get("/expenses")
 async def get_all_expenses(
     user=Depends(get_current_user),
     min_amount: Optional[float] = None,
