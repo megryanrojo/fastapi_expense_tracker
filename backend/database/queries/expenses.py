@@ -1,5 +1,6 @@
 from ..database import get_conn
 from ...schemas import expense
+from typing import Optional
 
 def create_expense(expense: expense.ExpenseCreate):
 
@@ -24,7 +25,7 @@ def create_expense(expense: expense.ExpenseCreate):
 
     return expense_id
 
-def get_xpenses(user_id: int):
+def get_xpenses(user_id: int, min_amount: Optional[int], max_amount: Optional[int], category: Optional[str], start_date: Optional[str], end_date: Optional[str]):
     
     conn = get_conn()
     cursor = conn.cursor()

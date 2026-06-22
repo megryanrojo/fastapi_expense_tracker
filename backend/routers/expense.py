@@ -29,7 +29,7 @@ async def get_all_expenses(
     ):
     
     user_id = user["user_id"]
-    data = db_expenses.get_xpenses(user_id)
+    data = db_expenses.get_xpenses(user_id, min_amount, max_amount, category, start_date, end_date)
 
     if not data:
         raise HTTPException(status_code=404, detail="No expense record found")
