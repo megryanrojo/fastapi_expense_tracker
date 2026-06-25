@@ -10,12 +10,12 @@ def create_expense(expense: expense.ExpenseCreate):
     cursor.execute("""
         INSERT INTO expenses (title, amount, category_id, user_id)
         VALUES (?, ?, ?, ?)
-""", (
+    """, (
         expense['title'],
         expense['amount'],
         expense['category_id'],
         expense['user_id']
-))
+    ))
     
     conn.commit()
     
@@ -25,7 +25,15 @@ def create_expense(expense: expense.ExpenseCreate):
 
     return expense_id
 
-def get_xpenses(user_id: int, min_amount: Optional[int], max_amount: Optional[int], category: Optional[str], start_date: Optional[str], end_date: Optional[str]):
+def get_xpenses(
+        user_id: int, 
+        min_amount: Optional[int]=None, 
+        max_amount: Optional[int]=None, 
+        category: Optional[str]=None, 
+        start_date: Optional[str]=None, 
+        end_date: Optional[str]=None
+        ):
+    
     conn = get_conn()
 
     try:
@@ -70,12 +78,10 @@ def get_xpenses(user_id: int, min_amount: Optional[int], max_amount: Optional[in
         cursor.execute(query, tuple(params))
         rows = cursor.fetchall()
 
-        return rows
+        return [dict(row) for row in rows]
     
     finally:
         conn.close()
-
-    return [dict(row) for row in rows]
 
 #TODO Filter and Query params!
 
@@ -129,7 +135,7 @@ def get_expense_min(user_id: int, min_amount: float):
 
         rows = cursor.fetchall()
 
-        return rows
+        return [dict(row) for row in rows]
     
     finally:
         conn.close()

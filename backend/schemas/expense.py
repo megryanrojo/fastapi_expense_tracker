@@ -26,9 +26,9 @@ class ExpenseUpdate(BaseModel):
 class ExpenseResponse(BaseModel):
     id: int
     title: str
-    amount: Decimal       # Best practice for currency values
-    expense_date: date    # Automatically converts SQL date strings to date objects
-    category_name: str    # Captured from your SQL JOIN
+    amount: Decimal 
+    expense_date: date   
+    category_name: str    
 
     class Config:
         from_attributes = True
