@@ -14,6 +14,10 @@ function App() {
           <button className='border-1 border-zinc-500 rounded-md px-5 py-1 text-base hover:bg-zinc-800 cursor-pointer transition-colors'>Login</button>
         </nav>
       </div>
+      
+      <div className='hero text-center py-30'>
+        <div className='text-9xl font-bold'>Personal Xpense tracker built with FastAPI</div>
+      </div>
     </div>
     </>
   )
