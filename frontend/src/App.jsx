@@ -6,6 +6,8 @@ import './App.css'
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   return (
     <>
@@ -27,16 +29,23 @@ function App() {
       </div>
 
       {isOpen && (
-        <div className='overlay flex justify-center items-center fixed bg-zinc-900/60 inset-0'>
-          <div className='modal bg-zinc-800 rounded-md p-6 border-1 border-zinc-700 inline-flex flex-col items-center'>
+        <div
+          onClick={() => setIsOpen(false)} 
+          className='overlay flex justify-center items-center fixed bg-zinc-900/60 inset-0'
+          >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className='modal bg-zinc-800 rounded-md p-6 border-1 border-zinc-700 inline-flex flex-col items-center'>
             <h1 className='text-zinc-100 mb-10 font-bold text-2xl'>Login</h1>
+            <button>x</button>
             <div className='form'>
               <form action="#" method='post'>
-                <label className='block'>Username</label>
-                <input type="text" name='username' className='block bg-zinc-700 rounded-md p-2 border-1 border-zinc-600 w-full mb-4'/>
-                <label className='block'>Password</label>
-                <input type="text" name='username' className='block bg-zinc-700 rounded-md p-2 border-1 border-zinc-600 w-full mb-4'/>
-                <button type='submit' className='bg-zinc-700'>Login</button>
+                <label className='block text-zinc-100'>Username</label>
+                <input value={username} onChange={(event) => setUsername(event.target.value)} type="text" name='username' className='block bg-zinc-700 rounded-md p-2 border border-zinc-400 w-full mb-4'/>
+                <label className='block text-zinc-100'>Password</label>
+                <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" name='password' className='block bg-zinc-700 rounded-md p-2 border border-zinc-400 w-full mb-4'/>
+                <button 
+                  type='submit' className='bg-zinc-700 border border-zinc-400 rounded-md px-23 py-1 font-bold hover:bg-zinc-500 cursor-pointer'>Login Now</button>
               </form>
             </div>
           </div>
@@ -47,4 +56,5 @@ function App() {
     </>
   )
 }
+
 export default App
