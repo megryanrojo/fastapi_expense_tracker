@@ -1,13 +1,20 @@
-import { useState, useEffect, useRef} from 'react'
+import { useState, useEffect} from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import './App.css'
 
+
+
 function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  function handleSubmit(event) {
+  event.preventDefault();
+  console.log(username, password);
+  }
 
   return (
     <>
@@ -39,7 +46,7 @@ function App() {
             <h1 className='text-zinc-100 mb-10 font-bold text-2xl'>Login</h1>
             <button>x</button>
             <div className='form'>
-              <form action="#" method='post'>
+              <form onSubmit={handleSubmit}>
                 <label className='block text-zinc-100'>Username</label>
                 <input value={username} onChange={(event) => setUsername(event.target.value)} type="text" name='username' className='block bg-zinc-700 rounded-md p-2 border border-zinc-400 w-full mb-4'/>
                 <label className='block text-zinc-100'>Password</label>
