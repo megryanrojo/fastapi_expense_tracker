@@ -5,8 +5,8 @@ import heroImg from './assets/hero.png'
 import './App.css'
 
 
-
 function App() {
+  const [user, setUser] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -28,9 +28,27 @@ function App() {
   )
 
   const data = await response.json();
-  console.log(data);
+
+  setUser({
+    name: data.name,
+  })
+
+  localStorage.setItem("access_token", data.access_token);
+  localStorage.setItem("name", data.name);
+  
+  if (response.ok) {
+    setIsOpen(false);
+  }
 
   }
+
+  function HandleLogout() {
+    setUser(null)
+
+    localStorage.removeItem("name")
+    localStorage.removeItem("access_token")
+  }
+
 
   return (
     <>
@@ -38,12 +56,28 @@ function App() {
       <div className='navbar bg-zinc-900'>
         <nav className="title bg-zinc-900 p-5 border-b border-zinc-500 flex justify-between items-center">
           <h1 className='text-xl font-bold pl-10 pt-2'>Xpense</h1>
-          <button 
-            className='border-1 border-zinc-500 rounded-md px-5 py-1 text-base hover:bg-zinc-800 cursor-pointer transition-colors' 
-            onClick={() => setIsOpen(true)}
-          >
-            Login
-          </button>
+          {user ? 
+
+          (<>
+            <p>{user.name}</p>
+            <button 
+              className='border border-zinc-500 rounded-md px-5 py-1 text-base hover:bg-zinc-800 cursor-pointer'
+              onClick={HandleLogout}
+            >
+              Logout
+            </button>
+          </>) : 
+
+          (<>
+            <button 
+              className='border-1 border-zinc-500 rounded-md px-5 py-1 text-base hover:bg-zinc-800 cursor-pointer transition-colors' 
+              onClick={() => setIsOpen(true)}
+            > 
+              Login
+            </button>
+          </>)
+          }
+
         </nav>
       </div>
       
