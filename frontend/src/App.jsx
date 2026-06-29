@@ -11,9 +11,25 @@ function App() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
   event.preventDefault();
   console.log(username, password);
+
+  const response = await fetch(
+    "http://127.0.0.1:8000/api/v1/auth/login",
+
+    {
+      method: "POST",
+      headers: {
+        "content-Type": "application/json"
+      },
+      body: JSON.stringify({name: username, password: password})
+    }
+  )
+
+  const data = await response.json();
+  console.log(data);
+
   }
 
   return (
@@ -44,7 +60,6 @@ function App() {
             onClick={(e) => e.stopPropagation()}
             className='modal bg-zinc-800 rounded-md p-6 border-1 border-zinc-700 inline-flex flex-col items-center'>
             <h1 className='text-zinc-100 mb-10 font-bold text-2xl'>Login</h1>
-            <button>x</button>
             <div className='form'>
               <form onSubmit={handleSubmit}>
                 <label className='block text-zinc-100'>Username</label>
