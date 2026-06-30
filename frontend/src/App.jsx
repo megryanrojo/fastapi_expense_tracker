@@ -6,10 +6,16 @@ import './App.css'
 
 
 function App() {
+
   const [user, setUser] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(()=> {
+    const userData = JSON.parse(localStorage.getItem("user"))
+    setUser(userData)
+  }, [])
 
   async function handleSubmit(event) {
   event.preventDefault();
@@ -29,26 +35,24 @@ function App() {
 
   const data = await response.json();
 
-  setUser({
-    name: data.name,
-  })
-
-  localStorage.setItem("access_token", data.access_token);
-  localStorage.setItem("name", data.name);
-  
   if (response.ok) {
-    setIsOpen(false);
+    setUser(data);
+
+    localStorage.setItem("user", JSON.stringify(data));
+
+    setUsername('');
+    setPassword('');
+    setIsOpen(false); 
+  } else {
+    console.log("no user found")
+    }
   }
 
-  }
-
-  function HandleLogout() {
+  function handleLogout() {
     setUser(null)
 
-    localStorage.removeItem("name")
-    localStorage.removeItem("access_token")
+    localStorage.removeItem("user")
   }
-
 
   return (
     <>
@@ -59,13 +63,15 @@ function App() {
           {user ? 
 
           (<>
-            <p>{user.name}</p>
-            <button 
-              className='border border-zinc-500 rounded-md px-5 py-1 text-base hover:bg-zinc-800 cursor-pointer'
-              onClick={HandleLogout}
-            >
-              Logout
-            </button>
+            <div className='flex items-center gap-4'>
+              <p>{user.name}</p>
+              <button 
+                className='border border-zinc-500 rounded-md px-5 py-1 text-base hover:bg-zinc-800 cursor-pointer'
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </div>
           </>) : 
 
           (<>
