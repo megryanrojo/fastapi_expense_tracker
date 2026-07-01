@@ -1,8 +1,11 @@
 import { useState, useEffect} from 'react'
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import './App.css'
 import NavBar from './components/navbar'
 import LoginModal from './components/login_modal'
 import LandingPage from './components/landing_page'
+import Dashboard from './pages/dashboard'
+
 
 
 function App() {
@@ -57,7 +60,6 @@ function App() {
   }
 
   return (
-    <>
     <div className='min-h-screen bg-zinc-950 text-white'>
       <NavBar user={user} handleLogout={handleLogout} setIsOpen={setIsOpen}/>
       <LandingPage />
@@ -71,8 +73,6 @@ function App() {
         setPassword={setPassword}
         />
     </div>
-    </>
   )
 }
-
 export default App

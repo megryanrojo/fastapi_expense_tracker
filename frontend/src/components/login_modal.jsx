@@ -1,3 +1,7 @@
+import { Route, Router, BrowserRouter, Routes } from 'react-router'
+import Dashboard from '../pages/dashboard';
+
+
 function LoginModal({isOpen, setIsOpen, handleSubmit, username, password, setUsername, setPassword}) {
     return (
         <>
