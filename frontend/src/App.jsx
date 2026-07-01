@@ -1,11 +1,10 @@
 import { useState, useEffect} from 'react'
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
 import NavBar from './components/navbar'
 import LoginModal from './components/login_modal'
-import LandingPage from './components/landing_page'
 import Dashboard from './pages/dashboard'
-
+import LandingPage from './pages/landingpage'
 
 
 function App() {
@@ -60,9 +59,19 @@ function App() {
   }
 
   return (
-    <div className='min-h-screen bg-zinc-950 text-white'>
-      <NavBar user={user} handleLogout={handleLogout} setIsOpen={setIsOpen}/>
-      <LandingPage />
+    <>
+      <NavBar 
+        user={user} 
+        handleLogout={handleLogout} 
+        setIsOpen={setIsOpen}
+      />
+
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<LandingPage/>}></Route>
+        </Routes>
+      </BrowserRouter>
+
       <LoginModal 
         isOpen={isOpen} 
         setIsOpen={setIsOpen} 
@@ -71,8 +80,9 @@ function App() {
         password={password} 
         setUsername={setUsername} 
         setPassword={setPassword}
-        />
-    </div>
+      />
+
+    </>
   )
 }
 export default App

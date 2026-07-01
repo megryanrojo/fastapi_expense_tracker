@@ -8,8 +8,7 @@ function LoginModal({isOpen, setIsOpen, handleSubmit, username, password, setUse
             {isOpen && (
             <div
             onClick={() => setIsOpen(false)} 
-            className='overlay flex justify-center items-center fixed bg-zinc-900/60 inset-0'
-            >
+            className='overlay flex justify-center items-center fixed bg-zinc-900/60 inset-0 text-zinc-100 backdrop-blur-sm z-50'>
             <div 
                 onClick={(e) => e.stopPropagation()}
                 className='modal bg-zinc-800 rounded-md p-6 border-1 border-zinc-700 inline-flex flex-col items-center'>
