@@ -1,5 +1,5 @@
 import { useState, useEffect} from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 import './App.css'
 import NavBar from './components/navbar'
 import LoginModal from './components/login_modal'
@@ -8,6 +8,8 @@ import LandingPage from './pages/landingpage'
 
 
 function App() {
+  const navigate = useNavigate();
+
   const [user, setUser] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [username, setUsername] = useState('');
@@ -22,40 +24,40 @@ function App() {
   }, [])
 
   async function handleSubmit(event) {
-  event.preventDefault();
-  console.log(username, password);
+    event.preventDefault();
+    console.log(username, password);
 
-  const response = await fetch(
-    "http://127.0.0.1:8000/api/v1/auth/login",
+    const response = await fetch(
+      "http://127.0.0.1:8000/api/v1/auth/login",
 
-    {
-      method: "POST",
-      headers: {
-        "content-Type": "application/json"
-      },
-      body: JSON.stringify({name: username, password: password})
+      {
+        method: "POST",
+        headers: {
+          "content-Type": "application/json"
+        },
+        body: JSON.stringify({name: username, password: password})
+      }
+    )
+
+    const data = await response.json();
+
+    if (response.ok) {
+
+      setUser(data);
+
+      localStorage.setItem("user", JSON.stringify(data));
+
+      setIsOpen(false);
+      navigate("/dashboard"); 
+    } else {
+        alert(data.detail);
+      }
     }
-  )
 
-  const data = await response.json();
+    function handleLogout() {
+      setUser(null)
 
-  if (response.ok) {
-    setUser(data);
-
-    localStorage.setItem("user", JSON.stringify(data));
-
-    setUsername('');
-    setPassword('');
-    setIsOpen(false); 
-  } else {
-    console.log("no user found")
-    }
-  }
-
-  function handleLogout() {
-    setUser(null)
-
-    localStorage.removeItem("user")
+      localStorage.removeItem("user")
   }
 
   return (
@@ -66,11 +68,12 @@ function App() {
         setIsOpen={setIsOpen}
       />
 
-      <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<LandingPage/>}></Route>
-        </Routes>
-      </BrowserRouter>
+      
+      <Routes>
+        <Route path='/' element={<LandingPage/>}></Route>
+        <Route path='/dashboard' element={<Dashboard/>}></Route>
+      </Routes>
+      
 
       <LoginModal 
         isOpen={isOpen} 

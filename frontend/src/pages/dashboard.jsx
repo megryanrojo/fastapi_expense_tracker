@@ -1,5 +1,4 @@
 import {useState, useEffect} from 'react';
-import { BrowserRouter, Routes, Route, Link, createBrowserRouter } from 'react-router'
 import NavBar from '../components/navbar';
 
 const Dashboard = () => {
@@ -23,8 +22,7 @@ const Dashboard = () => {
 
     return (
         <div className='min-h-screen bg-zinc-950 text-white'>
-           <NavBar user={user} handleLogout={handleLogout} setIsOpen={() => {}} /> 
-            <p>Dashboard!?</p>
+            <p></p>
         </div>
     )
 }
