@@ -6,7 +6,7 @@ from ..core.jwt_handler import create_access_token
 
 router = APIRouter()
 
-@router.post("/auth/login")
+@router.post("/auth/login", response_model= auth.LoginResponse)
 def login_user(user_credentials: auth.LoginRequest):
     user = db_auth.login_user(user_credentials.name, user_credentials.password)
     

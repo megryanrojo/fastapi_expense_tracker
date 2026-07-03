@@ -3,6 +3,7 @@ import { useNavigate, Routes, Route } from 'react-router-dom';
 import SideBar from '../components/side_bar';
 import DashboardNav from '../components/dashboard_nav';
 import LandingPage from '../components/landing_page';
+import TotalSpent from '../components/dashboard/total_spent';
 
 
 const Dashboard = () => {
@@ -48,6 +49,9 @@ const Dashboard = () => {
                     sidebarOpen={sidebarOpen}
                     setSidebarOpen={setSidebarOpen}
                 />
+                <div className='body inline-flex items-center mx-20 my-10 gap-10'>
+                    <TotalSpent/>
+                </div>
             </div>
         </>
     )
