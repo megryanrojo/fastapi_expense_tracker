@@ -76,3 +76,8 @@ async def patch_expense(expense_id: int, input_expense: e.ExpenseUpdate, user=De
             detail=f"Expense with id {expense_id} not found"
         )
     return data
+
+#TODO GET TOTAL EXPENSES AMOUNT
+@router.get("/expenses/")
+async def get_total_xpense():
+    pass

@@ -202,3 +202,25 @@ def delete_xpense(id: int):
 
     conn.commit()
     conn.close()
+
+def get_total_xpenses(user_id: int):
+    conn = get_conn()
+
+    try:
+        cursor = conn.cursor()
+
+        query = """
+            SELECT
+                expenses.amount
+            FROM expenses    
+            WHERE expenses.user_id = ?
+        """
+
+        cursor.execute(query, (user_id,))
+
+        rows = cursor.fetchall()
+        
+        return [dict(row) for row in rows]
+
+    finally:
+        conn.close()
