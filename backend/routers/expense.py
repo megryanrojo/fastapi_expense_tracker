@@ -49,7 +49,7 @@ async def get_total_xpense(user=Depends(get_current_user)):
         )
     
     return {
-        "Total Expenses": data
+        "total_expenses": data
     }
 
 @router.get("/expenses/{expense_id}", response_model=e.get_Expense)
