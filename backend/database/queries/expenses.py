@@ -31,7 +31,7 @@ def get_xpenses(
         max_amount: Optional[int]=None, 
         category: Optional[str]=None, 
         start_date: Optional[str]=None, 
-        end_date: Optional[str]=None
+        end_date: Optional[str]=None,
         ):
     
     conn = get_conn()
@@ -71,7 +71,7 @@ def get_xpenses(
 
         if end_date is not None:
             query += " AND expenses.expense_date <= ?"
-            params.append(start_date)
+            params.append(end_date)
 
         query += " LIMIT 10;"
 
@@ -109,34 +109,6 @@ def get_xpense_category(user_id: int, expense_category: int):
 
         return [dict(row) for row in rows]
 
-    finally:
-        conn.close()
-
-def get_expense_min(user_id: int, min_amount: float):
-    conn = get_conn()
-
-    try:
-        cursor = conn.cursor()
-
-        query = """
-            SELECT 
-                expenses.id,
-                expenses.title,
-                expenses.amount,
-                category.name as category_name
-            FROM expenses
-            JOIN category ON expenses.category_id = category.category_id
-            WHERE expenses.user_id = ?
-            ORDER BY expenses.amount ASC
-            LIMIT 10;
-        """
-
-        cursor.execute(query, (user_id,))
-
-        rows = cursor.fetchall()
-
-        return [dict(row) for row in rows]
-    
     finally:
         conn.close()
 
@@ -210,17 +182,16 @@ def get_total_xpenses(user_id: int):
         cursor = conn.cursor()
 
         query = """
-            SELECT
-                expenses.amount
-            FROM expenses    
-            WHERE expenses.user_id = ?
+            SELECT SUM(amount) AS total_expenses
+            FROM expenses
+            WHERE user_id = ?
         """
 
         cursor.execute(query, (user_id,))
 
-        rows = cursor.fetchall()
-        
-        return [dict(row) for row in rows]
+        row = cursor.fetchone()
+
+        return row["total_expenses"] or 0
 
     finally:
         conn.close()

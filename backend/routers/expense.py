@@ -35,6 +35,23 @@ async def get_all_expenses(
         raise HTTPException(status_code=404, detail="No expense record found")
     return data
 
+#TODO GET TOTAL EXPENSES AMOUNT
+@router.get("/expenses/total")
+async def get_total_xpense(user=Depends(get_current_user)):
+    user_id = user["user_id"]
+
+    data = db_expenses.get_total_xpenses(user_id)
+
+    if data is None:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No expense found"
+        )
+    
+    return {
+        "Total Expenses": data
+    }
+
 @router.get("/expenses/{expense_id}", response_model=e.get_Expense)
 async def get_xpense(expense_id: int, user=Depends(get_current_user)):
     user_id = user["user_id"]
@@ -77,7 +94,3 @@ async def patch_expense(expense_id: int, input_expense: e.ExpenseUpdate, user=De
         )
     return data
 
-#TODO GET TOTAL EXPENSES AMOUNT
-@router.get("/expenses/")
-async def get_total_xpense():
-    pass
