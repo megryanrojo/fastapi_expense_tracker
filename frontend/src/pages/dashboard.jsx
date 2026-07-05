@@ -50,7 +50,7 @@ const Dashboard = () => {
                     setSidebarOpen={setSidebarOpen}
                 />
                 <div className='body inline-flex items-center mx-20 my-10 gap-10'>
-                    <TotalSpent/>
+                    <TotalSpent user={user} />
                 </div>
             </div>
         </>
