@@ -25,7 +25,7 @@ async def get_all_expenses(
     max_amount: Optional[float] = None,
     category: Optional[str] = None,
     start_date: Optional[str] = None,
-    end_date: Optional[str] = None
+    end_date: Optional[str] = None  
     ):
     
     user_id = user["user_id"]

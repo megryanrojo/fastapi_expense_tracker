@@ -10,4 +10,10 @@ class IncomeCreate(BaseModel):
 
 class Income(IncomeCreate):
     id: int
+
+class GetAllIncome(BaseModel):
+    id: int
+    title: str
+    amount: float
+    date_created: date
     
