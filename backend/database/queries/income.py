@@ -77,3 +77,31 @@ def get_all_income(
 
     finally:
         conn.close()
+
+def patch_income(income_id: int, user_id: int, title: str | None = None, amount: float | None = None):
+    conn = get_conn()
+
+    try:
+        cursor = conn.cursor()
+
+        query = """
+            UPDATE income
+            SET
+                COALESCE(?, title),
+                COALESCE(?, amount)
+            WHERE id = ?
+                AND user_id = (SELECT user_id FROM users WHERE user_id = ?);
+        """
+
+        params = [
+            title, amount, income_id, user_id
+        ]
+
+        cursor.execute(query, tuple(params))
+
+        row = cursor.fetchone()
+
+        return dict(row)
+
+    finally:
+        conn.close()

@@ -39,6 +39,8 @@ async def get_all_income(
         )
     return income_data
 
-    
+@router.patch("/income/{income_id}", response_model=inc.Income)
+async def update_income():
+    pass
     
     
