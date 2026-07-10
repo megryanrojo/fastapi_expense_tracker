@@ -19,26 +19,27 @@ async def create_income(income_input: inc.IncomeCreate, user=Depends(get_current
         **new_income
     }
 
-@router.post("/income/total")
+@router.get("/income/total")
 def get_total_income(user=Depends(get_current_user)):
     user_id = user["user_id"]
 
-    total_income = db_income.get_total_income(user_id)
+    total_income = db_income.get_total_income(user_id)                                                                                                                                 
     
     if total_income is None:
         raise HTTPException(
-            status_code=404,
-            detail="No Income found"
+            status_code=404,                                        
+            detail="No Income found"                        
         )
-    return total_income
-
+    return {
+        "total_income": total_income
+    }
 
 @router.get("/income", response_model=inc.GetAllIncome)
 async def get_all_income(
     user=Depends(get_current_user), 
     minAmount: Optional[int] = None,
     maxAmount: Optional[int] = None,
-    startDate: Optional[str] = None,
+    startDate: Optional[str] = None,                                                            
     endDate: Optional[str] = None
     ):
 
@@ -51,10 +52,7 @@ async def get_all_income(
             status_code=404,
             detail="Error no income data found"
         )
-    
-    return {
-        "total_income": income_data
-    }
+    return income_data
 
 @router.patch("/income/{income_id}", response_model=inc.Income)
 async def update_income():
