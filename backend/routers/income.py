@@ -8,11 +8,11 @@ router = APIRouter()
 
 @router.post("/income")
 async def create_income(income_input: inc.IncomeCreate, user=Depends(get_current_user)):
-    current_user = await user
+    current_user = user
 
     new_income = income_input.model_dump()
     new_income["user_id"] = current_user["user_id"]
-    income_id = await db_income.create_income(new_income)
+    income_id = db_income.create_income(new_income)
 
     return {
         "id": income_id,

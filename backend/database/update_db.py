@@ -6,6 +6,7 @@ cursor = conn.cursor()
 query = """
     CREATE TABLE IF NOT EXISTS income(
         income_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL DEFAULT 'Untitled',
         amount REAL NOT NULL,
         date_created DATE DEFAULT CURRENT_DATE,
         user_id INTEGER NOT NULL,

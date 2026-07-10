@@ -9,23 +9,27 @@ def create_income(data: income.IncomeCreate):
         cursor = conn.cursor()
 
         query = """
-            INSERT INTO income(title, amount, date_created, user_id, id)
-            VALUES(?, ?, ?, ?, ?)
+            INSERT INTO income(amount, date_created, user_id, title)
+            VALUES( ?, ?, ?, ? )
         """
 
         params = [
-            data['title'],
+
             data['amount'],
             data['date_created'],
             data['user_id'],
-            data['id']
+            data['title']
         ]
         
-        cursor.execute(query, tuple(params))
+        cursor.execute(query, tuple(params))    
         conn.commit()
+
+        income_id = cursor.lastrowid
 
     finally:
         conn.close()
+
+        return income_id
         
 def get_all_income(
     user_id: int, 
