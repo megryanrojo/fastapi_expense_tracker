@@ -109,3 +109,24 @@ def patch_income(income_id: int, user_id: int, title: str | None = None, amount:
 
     finally:
         conn.close()
+
+def get_total_income(user_id: int):
+    conn = get_conn()
+
+    try:
+        cursor = conn.cursor()
+
+        query = """
+            SELECT SUM(amount) AS total_income
+            FROM income
+            WHERE user_id = ?
+        """
+
+        cursor.execute(query, (user_id,))
+        
+        row = cursor.fetchone()
+
+        return row["total_income"] or 0
+    
+    finally:
+        conn.close()
