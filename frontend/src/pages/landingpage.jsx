@@ -3,7 +3,6 @@ import { useNavigate, Router, Routes, Route } from 'react-router-dom';
 import LandingPage from "../components/landing_page";
 import LoginModal from '../components/login_modal';
 import NavBar from "../components/navbar";
-
 import DashBoard from '../pages/dashboard';
 
 const LandingPageRoute = () => {
@@ -61,7 +60,6 @@ const LandingPageRoute = () => {
     }
 
     return (
-
         <>
             <NavBar
                 user={user} 
