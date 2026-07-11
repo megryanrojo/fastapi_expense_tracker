@@ -7,16 +7,13 @@ def get_net_balance(user_id: int):
         cursor = conn.cursor()
 
         query = """
-            SELECT
-                e.amount AS expense_amount,
-                i.amount AS income_amount,
-                (i.amount - e.amount) AS net_balance
-            FROM income AS i
-            INNER JOIN expenses AS e ON i.user_id = e.user_id
-            WHERE i.user_id = ?
+            SELECT  (
+                (SELECT COALESCE(SUM(amount), 0) FROM income WHERE user_id = ?) - 
+                (SELECT COALESCE(SUM(amount), 0) FROM expenses WHERE user_id = ?)
+            ) AS net_balance;
         """
 
-        cursor.execute(query, (user_id,))
+        cursor.execute(query, (user_id, user_id,))
 
         row = cursor.fetchone()
 

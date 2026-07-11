@@ -1,6 +1,8 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from ..database.queries import db_user
 from ..schemas import user
+from ..database import db_net_balance
+from ..core.dependencies import get_current_user
 
 
 router = APIRouter()
@@ -39,3 +41,19 @@ async def patch_user(user_id: int, user_input: user.userUpdate):
 
     data = db_user.patch_user(user_id, name, password)
     return data
+
+@router.get("/users/me/net-balance")
+def get_net_balance(user=Depends(get_current_user)):
+    user_id = user["user_id"]
+
+    net_balance = db_net_balance.get_net_balance(user_id)
+
+    if net_balance is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Net balance cannot be calculated or is None"
+        )
+    
+    return {
+        "net_balance": net_balance
+    }

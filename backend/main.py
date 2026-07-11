@@ -5,11 +5,13 @@ from backend.routers import user_router
 from backend.routers import auth_router
 from backend.routers import income_router
 
+prefix = "/api/v1"
+
 app = FastAPI()
-app.include_router(xpense_router, prefix="/api/v1")
-app.include_router(user_router, prefix="/api/v1")
-app.include_router(auth_router, prefix="/api/v1")
-app.include_router(income_router, prefix="/api/v1")
+app.include_router(xpense_router, prefix=prefix)
+app.include_router(user_router, prefix=prefix)
+app.include_router(auth_router, prefix=prefix)
+app.include_router(income_router, prefix=prefix)
 
 origins = [
     "http://localhost:5173",
@@ -22,7 +24,3 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-@app.get("/api/data")
-async def hello():
-    return {"message": "Hello!"}
