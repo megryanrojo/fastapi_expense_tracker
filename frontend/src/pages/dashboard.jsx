@@ -5,6 +5,7 @@ import DashboardNav from '../components/dashboard_nav';
 import LandingPage from '../components/landing_page';
 import TotalSpent from '../components/dashboard/total_spent';
 import RevenueCard from '../components/dashboard/revenue';
+import NetBalance from '../components/dashboard/net_balance';
 
 
 const Dashboard = () => {
@@ -51,6 +52,7 @@ const Dashboard = () => {
                 <div className='body inline-flex items-center mx-20 my-10 gap-10'>
                     <TotalSpent user={user} />
                     <RevenueCard user={user} />
+                    <NetBalance user={user} />
                 </div>
             </div>
         </>
