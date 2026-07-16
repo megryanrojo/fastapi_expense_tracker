@@ -1,6 +1,7 @@
 from ..schemas import expense as e
 from fastapi import APIRouter, HTTPException, Depends
 from ..database.queries import db_expenses
+from ..database.queries import db_spent_cat
 from ..core.dependencies import get_current_user
 from typing import Optional
 
@@ -35,7 +36,6 @@ async def get_all_expenses(
         raise HTTPException(status_code=404, detail="No expense record found")
     return data
 
-#TODO GET TOTAL EXPENSES AMOUNT
 @router.get("/expenses/total")
 async def get_total_xpense(user=Depends(get_current_user)):
     user_id = user["user_id"]
@@ -51,6 +51,20 @@ async def get_total_xpense(user=Depends(get_current_user)):
     return {
         "total_expenses": data
     }
+
+@router.get("/expenses/category-summary")
+def get_expense_summary_by_category(user=Depends(get_current_user)):
+    user_id = user["user_id"]
+
+    data = db_spent_cat.get_total_spent_by_category(user_id)
+
+    if data is None:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No Expense found"
+        )
+    
+    return data
 
 @router.get("/expenses/{expense_id}", response_model=e.get_Expense)
 async def get_xpense(expense_id: int, user=Depends(get_current_user)):
@@ -93,4 +107,3 @@ async def patch_expense(expense_id: int, input_expense: e.ExpenseUpdate, user=De
             detail=f"Expense with id {expense_id} not found"
         )
     return data
-
