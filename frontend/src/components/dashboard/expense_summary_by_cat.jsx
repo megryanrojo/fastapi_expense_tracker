@@ -1,12 +1,12 @@
 import React from "react";
-import { Bar } from "react-chartjs-2";
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+import { Bar, Pie } from "react-chartjs-2";
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from "chart.js";
 import { useState, useEffect } from "react";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
 
 function ExpenseSummaryByCategory({ user }) {
-    const [expenseData, setExpenseData] = useState({});
+    const [expenseData, setExpenseData] = useState(null);
 
     useEffect(() => {
         if (!user) return;
@@ -27,28 +27,41 @@ function ExpenseSummaryByCategory({ user }) {
 
             if (response.ok) {
                 console.log(data);
+
+                const categories = data.map(obj => obj.name);
+                const total_amount = data.map(obj => obj.total_amount);
+
                 setExpenseData({
                     labels: categories,
                     datasets: [
                         {
-                            label: 'Total Expenses by Category',
-                            data: amounts,
+                            label: 'Category',
+                            data: total_amount,
                             backgroundColor: 'rgba(75, 192, 192, 0.6)',
                             borderColor: 'rgba(75, 192, 192, 1)',
                             borderWidth: 1,
-                        },
-                    ],
-                });
+                        }
+                    ]
+                })
+
+
             } else {
                 alert(data.detail);
             }
         }
+
+        GetExpenseSummary();
     } , [user]);
 
     return (
         <div className="bg-zinc-800 flex flex-col gap-2 p-5 border border-zinc-500 w-full">
             <h1 className="text-zinc-400 font-bold text-md">Expense Summary by Category</h1>
-            <Bar data={expenseData} options={{ responsive: true, plugins: { legend: { position: 'top' }, title: { display: true, text: 'Expenses by Category' } } }} />
+            {expenseData ? (
+                <Pie data={expenseData}/>
+            ) : (
+                    <p className="text-white font-bold text-2xl">Loading...</p>
+                )
+            }
         </div>
     );
 }
