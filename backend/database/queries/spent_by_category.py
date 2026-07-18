@@ -20,7 +20,7 @@ def get_total_spent_by_category(user_id: int):
 
         rows = cursor.fetchall()
 
-        return rows
+        return [dict(row) for row in rows]
 
     finally:  
         conn.close()

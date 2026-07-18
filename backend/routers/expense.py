@@ -2,6 +2,7 @@ from ..schemas import expense as e
 from fastapi import APIRouter, HTTPException, Depends
 from ..database.queries import db_expenses
 from ..database.queries import db_spent_cat
+from ..database.queries import db_cash_flow
 from ..core.dependencies import get_current_user
 from typing import Optional
 
@@ -64,6 +65,11 @@ def get_expense_summary_by_category(user=Depends(get_current_user)):
             detail=f"No Expense found"
         )
     
+    return data
+
+@router.get("/expenses/expense-cash-flow")
+def get_xpense_cash_flow(user_id: int):
+    data = db_cash_flow.expense_cash_flow(user_id)
     return data
 
 @router.get("/expenses/{expense_id}", response_model=e.get_Expense)

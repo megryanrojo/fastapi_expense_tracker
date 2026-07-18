@@ -4,3 +4,4 @@ from . import auth as db_auth
 from . import income as db_income
 from . import net_balance as db_net_balance
 from . import spent_by_category as db_spent_cat
+from . import cash_flow as db_cash_flow
