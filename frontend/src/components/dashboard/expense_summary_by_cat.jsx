@@ -1,5 +1,5 @@
 import React from "react";
-import { Bar, Pie } from "react-chartjs-2";
+import { Bar, Doughnut, Pie } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from "chart.js";
 import { useState, useEffect } from "react";
 
@@ -35,16 +35,19 @@ function ExpenseSummaryByCategory({ user }) {
                     labels: categories,
                     datasets: [
                         {
-                            label: 'Category',
+                            label: 'Total',
                             data: total_amount,
-                            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                            backgroundColor: [
+                                'rgba(250, 250, 249, 0.91)',
+                                'rgba(84, 84, 94, 0.72)',
+                                'rgba(17, 24, 39, 0.6)',
+                                'rgba(12, 12, 13, 0.6)',
+                            ],
                             borderColor: 'rgba(75, 192, 192, 1)',
                             borderWidth: 1,
                         }
                     ]
                 })
-
-
             } else {
                 alert(data.detail);
             }
@@ -54,12 +57,12 @@ function ExpenseSummaryByCategory({ user }) {
     } , [user]);
 
     return (
-        <div className="bg-zinc-800 flex flex-col gap-2 p-5 border border-zinc-500 w-full">
-            <h1 className="text-zinc-400 font-bold text-md">Expense Summary by Category</h1>
+        <div className="bg-zinc-800 flex flex-col gap-2 p-5 border border-zinc-500">
+            <h1 className="text-zinc-400 font-bold text-md">Spend by Category</h1>
             {expenseData ? (
-                <Pie data={expenseData}/>
+                <Doughnut data={expenseData}/>
             ) : (
-                    <p className="text-white font-bold text-2xl">Loading...</p>
+                    <p className="text-white font-bold text-2xl">Loading Data...</p>
                 )
             }
         </div>

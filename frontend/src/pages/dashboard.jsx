@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import { useNavigate, Routes, Route } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import SideBar from '../components/side_bar';
 import DashboardNav from '../components/dashboard_nav';
 import LandingPage from '../components/landing_page';
@@ -55,8 +55,11 @@ const Dashboard = () => {
                     <RevenueCard user={user} />
                     <NetBalance user={user} />
                 </div>
-                <div className='body inline-flex items-center mx-20 my-10 gap-10'>
-                    <ExpenseSummaryByCategory user={user} />
+
+                <div className="mx-20 mb-10">
+                    <div className="w-72 h-72">
+                        <ExpenseSummaryByCategory user={user} />
+                    </div>
                 </div>
             </div>
         </>
