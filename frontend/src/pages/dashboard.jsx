@@ -7,6 +7,7 @@ import TotalSpent from '../components/dashboard/total_spent';
 import RevenueCard from '../components/dashboard/revenue';
 import NetBalance from '../components/dashboard/net_balance';
 import ExpenseSummaryByCategory from '../components/dashboard/expense_summary_by_cat';
+import MonthlyCashFlow from '../components/dashboard/cash_flow';
 
 
 const Dashboard = () => {
@@ -57,8 +58,9 @@ const Dashboard = () => {
                 </div>
 
                 <div className="mx-20 mb-10">
-                    <div className="w-72 h-72">
+                    <div className="inline-flex items-center gap-10 w-72 h-72">
                         <ExpenseSummaryByCategory user={user} />
+                        <MonthlyCashFlow user={user} />
                     </div>
                 </div>
             </div>
