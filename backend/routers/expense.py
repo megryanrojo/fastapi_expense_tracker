@@ -68,8 +68,16 @@ def get_expense_summary_by_category(user=Depends(get_current_user)):
     return data
 
 @router.get("/expenses/expense-cash-flow")
-def get_xpense_cash_flow(user_id: int):
+def get_xpense_cash_flow(user=Depends(get_current_user)):
+    user_id = user["user_id"]
+
     data = db_cash_flow.expense_cash_flow(user_id)
+
+    if data is None:
+        raise HTTPException(
+            status_code=404,
+            detail="No expense found"
+        )
     return data
 
 @router.get("/expenses/{expense_id}", response_model=e.get_Expense)

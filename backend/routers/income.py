@@ -1,6 +1,6 @@
 from ..schemas import income as inc
 from fastapi import APIRouter, HTTPException, Depends
-from ..database.queries import db_income
+from ..database.queries import db_income, db_cash_flow
 from ..core.dependencies import get_current_user
 from typing import Optional
 
@@ -53,6 +53,20 @@ async def get_all_income(
             detail="Error no income data found"
         )
     return income_data
+
+@router.get("/income/cash-flow")
+async def get_income_cash_flow(user=Depends(get_current_user)):
+    user_id = user["user_id"]
+
+    data = db_cash_flow.income_cash_flow(user_id)
+
+    if data is None:
+        raise HTTPException(
+            status_code=404,
+            detail="No Income data found"
+        )
+
+    return data
 
 @router.patch("/income/{income_id}", response_model=inc.Income)
 async def update_income():
