@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../components/navbar";
 import SideBar from "../components/side_bar";
+import TransactionTable from "../components/transactions/transaction_table"
 
 const TransactionPage = () => {
     const navigate = useNavigate();
@@ -31,7 +32,7 @@ const TransactionPage = () => {
 
             <div className="max-w-7xl mx-auto px-6 md:px-10 py-10">
 
-                {/* Add your transaction content here */}
+                <TransactionTable user={user} />
             </div>
         </div>
     )

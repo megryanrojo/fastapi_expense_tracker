@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Chart } from "chart.js";
 
+
 function TransactionTable({ user }) {
     const [incomeData, setIncomeData] = useState(null);
     const [expenseData, setExpenseData] = useState(null);
@@ -12,7 +13,7 @@ function TransactionTable({ user }) {
             
             try {
                 const response = await fetch( 
-                    "",
+                    `${import.meta.env.VITE_BASE_API_URL}/api/v1/income`,
                     {
                         method: "GET",
                         headers: {
@@ -24,10 +25,10 @@ function TransactionTable({ user }) {
                     }
                 );
 
-                data = await response.json()
+                const data = await response.json();
 
                 if (response.ok) {
-                    
+                    console.log(data)
                 }
 
             } catch {
@@ -35,9 +36,8 @@ function TransactionTable({ user }) {
             }
         }
 
-        }
-    )   
-
-
-
-} 
+        getIncomeData()
+        }, [user]); 
+        
+}
+export default TransactionTable;
