@@ -34,7 +34,7 @@ def get_total_income(user=Depends(get_current_user)):
         "total_income": total_income
     }
 
-@router.get("/income", response_model=inc.GetAllIncome)
+@router.get("/income")
 async def get_all_income(
     user=Depends(get_current_user), 
     minAmount: Optional[int] = None,

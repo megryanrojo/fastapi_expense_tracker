@@ -46,12 +46,12 @@ def get_all_income(
 
         query = """
             SELECT 
-                income.id,
-                income.title,
-                income.amount,
-                income.date_created
-            FROM income
-            WHERE income.user_id = ?
+                i.income_id,
+                i.title,
+                i.amount,
+                i.date_created
+            FROM income i
+            WHERE i.user_id = ?
         """
 
         params = [user_id]
