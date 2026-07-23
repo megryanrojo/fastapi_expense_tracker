@@ -52,7 +52,12 @@ async def get_all_income(
             status_code=404,
             detail="Error no income data found"
         )
-    return income_data
+    return {
+        "success": True,
+        "count": len(income_data),
+        "data": income_data
+    }
+
 
 @router.get("/income/cash-flow")
 async def get_income_cash_flow(user=Depends(get_current_user)):

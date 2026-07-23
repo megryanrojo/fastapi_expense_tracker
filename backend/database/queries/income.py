@@ -37,7 +37,7 @@ def get_all_income(
     maxAmount: Optional[float] = None,
     startDate: Optional[str] = None,
     endDate: Optional[str] = None 
-    ):
+    ) -> list[dict]:
 
     conn = get_conn()
 
