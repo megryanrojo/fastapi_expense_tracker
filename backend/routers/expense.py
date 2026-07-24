@@ -35,7 +35,12 @@ async def get_all_expenses(
 
     if not data:
         raise HTTPException(status_code=404, detail="No expense record found")
-    return data
+
+    return {
+        "success": True,
+        "count": len(data),
+        "data": data
+    }
 
 @router.get("/expenses/total")
 async def get_total_xpense(user=Depends(get_current_user)):
