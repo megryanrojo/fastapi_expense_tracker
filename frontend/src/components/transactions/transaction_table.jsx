@@ -123,13 +123,21 @@ function TransactionTable({ user }) {
             ) : (
                 <>
                     <div className="overflow-x-auto -mx-6">
-                        <table className="w-full text-left border-collapse text-sm">
+                        <table className="w-full text-left border-collapse text-xs">
                             <thead>
                                 <tr className="border-b border-zinc-800">
-                                    <th className="px-4 py-2 text-zinc-400 text-xs font-medium">Date</th>
-                                    <th className="px-4 py-2 text-zinc-400 text-xs font-medium">Title</th>
-                                    <th className="px-4 py-2 text-zinc-400 text-xs font-medium">Type</th>
-                                    <th className="px-4 py-2 text-zinc-400 text-xs font-medium text-right">Amount</th>
+                                    <th className="px-3 py-1.5 text-zinc-500 text-[11px] font-medium uppercase tracking-wide">
+                                        Date
+                                    </th>
+                                    <th className="px-3 py-1.5 text-zinc-500 text-[11px] font-medium uppercase tracking-wide">
+                                        Title
+                                    </th>
+                                    <th className="px-3 py-1.5 text-zinc-500 text-[11px] font-medium uppercase tracking-wide">
+                                        Type
+                                    </th>
+                                    <th className="px-3 py-1.5 text-zinc-500 text-[11px] font-medium uppercase tracking-wide text-right">
+                                        Amount
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -138,15 +146,17 @@ function TransactionTable({ user }) {
                                     return (
                                         <tr
                                             key={`${transaction.type}-${transaction.id}`}
-                                            className="border-b border-zinc-800 hover:bg-zinc-800/40 transition-colors"
+                                            className="border-b border-zinc-800/60 hover:bg-zinc-800/40 transition-colors"
                                         >
-                                            <td className="px-4 py-2 text-zinc-100 whitespace-nowrap">
+                                            <td className="px-3 py-1 text-zinc-100 whitespace-nowrap">
                                                 {new Date(transaction.date_created).toLocaleDateString()}
                                             </td>
-                                            <td className="px-4 py-2 text-zinc-100">{transaction.title}</td>
-                                            <td className="px-4 py-2">
+                                            <td className="px-3 py-1 text-zinc-100 truncate max-w-[160px]">
+                                                {transaction.title}
+                                            </td>
+                                            <td className="px-3 py-1">
                                                 <span
-                                                    className={`inline-flex items-center px-1.5 py-0.5 rounded-full text-[11px] font-medium capitalize ${
+                                                    className={`inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium capitalize ${
                                                         isIncome
                                                             ? "bg-green-950/40 text-green-400"
                                                             : "bg-red-950/40 text-red-400"
@@ -156,7 +166,7 @@ function TransactionTable({ user }) {
                                                 </span>
                                             </td>
                                             <td
-                                                className={`px-4 py-2 text-right font-medium tabular-nums ${
+                                                className={`px-3 py-1 text-right font-medium tabular-nums ${
                                                     isIncome ? "text-green-400" : "text-red-400"
                                                 }`}
                                             >
@@ -173,8 +183,8 @@ function TransactionTable({ user }) {
                         </table>
                     </div>
 
-                    <div className="flex items-center justify-between mt-4 pt-4 border-t border-zinc-800">
-                        <p className="text-xs text-zinc-500">
+                    <div className="flex items-center justify-between mt-3 pt-3 border-t border-zinc-800">
+                        <p className="text-[11px] text-zinc-500">
                             Showing {startIndex + 1}–{Math.min(startIndex + PAGE_SIZE, transactions.length)} of{" "}
                             {transactions.length}
                         </p>
@@ -183,19 +193,19 @@ function TransactionTable({ user }) {
                             <button
                                 onClick={() => goToPage(currentPage - 1)}
                                 disabled={currentPage === 1}
-                                className="px-3 py-1.5 rounded-md text-sm text-zinc-300 border border-zinc-700 hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                                className="px-2.5 py-1 rounded-md text-xs text-zinc-300 border border-zinc-700 hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                             >
                                 Prev
                             </button>
 
-                            <span className="px-3 text-sm text-zinc-400 tabular-nums">
+                            <span className="px-2 text-xs text-zinc-400 tabular-nums">
                                 {currentPage} / {totalPages}
                             </span>
 
                             <button
                                 onClick={() => goToPage(currentPage + 1)}
                                 disabled={currentPage === totalPages}
-                                className="px-3 py-1.5 rounded-md text-sm text-zinc-300 border border-zinc-700 hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                                className="px-2.5 py-1 rounded-md text-xs text-zinc-300 border border-zinc-700 hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                             >
                                 Next
                             </button>
