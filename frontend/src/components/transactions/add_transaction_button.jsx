@@ -17,8 +17,7 @@ function AddTransactionButton({ user }) {
             disabled={isButtonDisabled}
             onClick={() => {
                 if (!isButtonDisabled) {
-                    // Logic to add a transaction goes here
-                    
+                    return True;
                 }
             }}
         >
