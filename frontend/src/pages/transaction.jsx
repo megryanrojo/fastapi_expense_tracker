@@ -1,10 +1,11 @@
 //TRANSACTION PAGE TO BE FINISHED
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../components/navbar";
 import SideBar from "../components/side_bar";
 import TransactionTable from "../components/transactions/transaction_table"
+import AddTransactionButton from "../components/transactions/add_transaction_button";
+
 
 const TransactionPage = () => {
     const navigate = useNavigate();
@@ -32,7 +33,10 @@ const TransactionPage = () => {
             <NavBar user={user} handleLogout={handleLogout} handleSidebarToggle={() => setSidebarOpen(!sidebarOpen)} />
             <SideBar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-            <div className="max-w-7xl mx-auto px-6 md:px-10 py-10">
+            <div className="max-w-7xl mx-auto px-6 md:px-10 py-6">
+                <div className="flex justify-end mb-4">
+                    <AddTransactionButton user={user} />
+                </div>
 
                 <TransactionTable user={user} />
             </div>
