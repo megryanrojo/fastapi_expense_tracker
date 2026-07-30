@@ -13,6 +13,7 @@ const TransactionPage = () => {
 
     const [user, setUser] = useState(null);
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [buttonPressed, setButtonPressed] = useState(false);
 
     useEffect(() => {
         const userData = JSON.parse(localStorage.getItem("user"));

@@ -13,18 +13,16 @@ function AddTransactionButton({ user }) {
 
     return (
         <button
-            className={`px-4 py-2 rounded-md text-white ${isButtonDisabled ? "bg-gray-500 cursor-not-allowed" : "bg-zinc-900 border border-zinc-800 hover:bg-zinc-600 cursor-pointer"}`}
+            className={`px-4 py-2 mb-4 rounded ${isButtonDisabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600 text-white'}`}
             disabled={isButtonDisabled}
             onClick={() => {
-                if (!isButtonDisabled) {
-                    const modal = document.getElementById("transaction-modal");
-                    if (modal) {
-                        modal.style.display = "block";
-                    }
+                const modal = document.getElementById("transaction-modal");
+                if (modal) {
+                    modal.style.display = "block";
                 }
             }}
         >
-            + New Transaction
+            Add Transaction
         </button>
     );
 }
