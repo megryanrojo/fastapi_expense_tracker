@@ -5,6 +5,7 @@ import NavBar from "../components/navbar";
 import SideBar from "../components/side_bar";
 import TransactionTable from "../components/transactions/transaction_table"
 import AddTransactionButton from "../components/transactions/add_transaction_button";
+import TransactionModal from "../components/transactions/new_transaction_modal";
 
 
 const TransactionPage = () => {
@@ -29,19 +30,19 @@ const TransactionPage = () => {
     }
     
     return (
-        <div className="min-h-screen bg-zinc-950 text-white">
-            <NavBar user={user} handleLogout={handleLogout} handleSidebarToggle={() => setSidebarOpen(!sidebarOpen)} />
-            <SideBar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-
-            <div className="max-w-7xl mx-auto px-6 md:px-10 py-6">
-                <div className="flex justify-end mb-4">
+        <div className="flex h-screen">
+            <SideBar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
+            <div className="flex-1 flex flex-col">
+                <NavBar user={user} onLogout={handleLogout} setSidebarOpen={setSidebarOpen} />
+                <div className="flex-1 p-4 overflow-y-auto">
+                    <h1 className="text-2xl font-bold mb-4">Transactions</h1>
                     <AddTransactionButton user={user} />
+                    <TransactionTable user={user} />
+                    <TransactionModal user={user} />
                 </div>
-
-                <TransactionTable user={user} />
             </div>
         </div>
-    )
+    );
 
 }
 export default TransactionPage;

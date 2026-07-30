@@ -17,7 +17,10 @@ function AddTransactionButton({ user }) {
             disabled={isButtonDisabled}
             onClick={() => {
                 if (!isButtonDisabled) {
-                    return True;
+                    const modal = document.getElementById("transaction-modal");
+                    if (modal) {
+                        modal.style.display = "block";
+                    }
                 }
             }}
         >
