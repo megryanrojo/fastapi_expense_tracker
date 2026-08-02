@@ -39,7 +39,7 @@ const TransactionPage = () => {
                     <h1 className="text-2xl font-bold mb-4">Transactions</h1>
                     <AddTransactionButton user={user} />
                     <TransactionTable user={user} />
-                    <TransactionModal user={user} />
+                    <TransactionModal user={user, buttonPressed}/>
                 </div>
             </div>
         </div>
