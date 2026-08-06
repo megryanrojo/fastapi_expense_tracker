@@ -205,7 +205,7 @@ function TransactionTable({ user }) {
                             <button
                                 onClick={() => goToPage(currentPage + 1)}
                                 disabled={currentPage === totalPages}
-                                className="px-2.5 py-1 rounded-md text-xs text-zinc-300 border border-zinc-700 hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                                className="px-2.5 py-1 rounded-md text-xs text-zinc-300 border border-zinc-700 hover:cursor-pointer bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                             >
                                 Next
                             </button>
