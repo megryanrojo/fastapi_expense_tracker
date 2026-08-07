@@ -33,7 +33,7 @@ const TransactionPage = () => {
     return (
         <div className="flex h-screen">
             <SideBar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
-            <div className="flex-1 flex flex-col">
+            <div className="flex-1 flex flex-col bg-zinc-900 text-zinc-100">
                 <NavBar user={user} onLogout={handleLogout} setSidebarOpen={setSidebarOpen} />
                 <div className="flex-1 p-4 overflow-y-auto">
                     <h1 className="text-2xl font-bold mb-4">Transactions</h1>
